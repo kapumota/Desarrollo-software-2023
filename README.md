@@ -1,1 +1,5 @@
-# Desarrollo-software-2023
+# Desarrollo de software
+
+### Lista de actividades
+
+- JUnit y Mockito
