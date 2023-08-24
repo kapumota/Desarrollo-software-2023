@@ -1,5 +1,7 @@
 # Desarrollo de software
 
+Lenguajes de programación: Java, Python y Ruby,
+
 ### Temario
 
 - Introducción al software como servicio, desarrollo ágil y computación en la nube
