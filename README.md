@@ -1,6 +1,6 @@
 # Desarrollo de software
 
-Lenguajes de programación: Java, Python y Ruby,
+Lenguajes de programación: Java, JavaScript, Python y Ruby,
 
 ### Temario
 
