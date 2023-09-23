@@ -1,4 +1,4 @@
-### Conceptos básicos de ActiveRecord
+## Conceptos básicos de ActiveRecord
 
 Para esta actividad, hemos creado una base de datos de 30 clientes falsos, con nombres falsos, direcciones de correo electrónico falsas y fechas de nacimiento falsas 
 (cortesía de [Faker gem](https://github.com/faker-ruby/faker)) y escribirás varias consultas de ActiveRecord para extraer y/o actualizar subconjuntos de estos clientes.
@@ -79,23 +79,21 @@ Ten en cuenta que para la mayoría de los casos de prueba, el caso de prueba fal
 
 Cuando todos los ejemplos pasen (RSpec debe imprimir el nombre de cada ejemplo pasado en verde), ¡habrás terminado la actividad!.
 
-NOTA: Si desea probar los ejemplos de forma interactiva, inicie el intérprete de Ruby con el paquete exec irb y luego, dentro del intérprete de Ruby, escriba cargar 'activerecord_practice.rb'. Esto definirá la clase Cliente y le permitirá probar cosas como Customer.where(...) directamente en el REPL (bucle de lectura-evaluación-impresión).
-Consejos y enlaces útiles
-Como de costumbre, tendrás que buscar la documentación de ActiveRecord para saber cómo hacer que funcionen estas consultas, lo cual es parte del proceso de aprendizaje:
+NOTA: Si deseas probar los ejemplos de forma interactiva, inicia el intérprete de Ruby con `bundle exec irb` y luego, dentro del intérprete de Ruby, escribe `load 'activerecord_practica.rb'`. 
+Esto definirá la clase `Customer` y te permitirá probar cosas como `Customer.where(...)` directamente en el `REPL (read-eval-print loop)`.
 
 
-Introducción a ActiveRecord
-Consultas básicas usando ActiveRecord
-Documentación completa de ActiveRecord (para Rails 4.2.x)
-Aunque los ejemplos requieren filtrar y, a veces, ordenar un subconjunto de registros de clientes, nunca debería necesitar llamar a métodos de recopilación de Ruby como map, recopilar u ordenar: el 100% del trabajo se puede realizar en la llamada ActiveRecord.
-Además, el objetivo es pasar cada prueba utilizando la interfaz de consulta de ActiveRecord, no llamando a find() con los identificadores de los registros de resultados esperados. Para eliminar esa tentación, las pruebas RSpec generan un error si usa directamente ActiveRecord::Base.find en su código. (Más adelante en el curso exploraremos los mecanismos RSpec que nos permiten realizar este "seguimiento de métodos" para deshabilitar ciertos métodos en las pruebas).
-Finalmente, si está interesado en aprender más sobre los comandos SQL (lenguaje de consulta estructurado) subyacentes que genera ActiveRecord, le recomendamos:
-Consultas SQL, otro curso breve a su propio ritmo de nuestros amigos de Stanford
-Enseñanza SQL, que le permite de forma interactiva
-Información adicional adicional
+### Información adicional 
+
 Aunque ActiveRecord es una parte clave de Rails, puedes usar la biblioteca ActiveRecord fuera de una aplicación Rails. De hecho, estos ejercicios utilizan ActiveRecord, pero los ejercicios en sí no constituyen una aplicación Rails. Entonces, hay algunas diferencias entre cómo usamos AR aquí y cómo lo usarías en una aplicación Rails:
-El Gemfile enumera active_record como una dependencia explícita. En una aplicación Rails, Gemfile simplemente enumeraría Rails como una gema, pero Rails a su vez depende de active_record, y Bundler detectaría y resolvería esa dependencia.
-De manera similar, en activerecord_practice.rb hay una llamada para establecer_conexión. En una aplicación Rails normal nunca necesitarías esto, ya que Rails se encarga de administrar las conexiones de la base de datos e incluso hay extensiones de Rails que pueden distribuir conexiones entre múltiples bases de datos y manejar la replicación maestro-esclavo.
-Los dos archivos de la tarea, activerecord_practice.rb y el archivo de especificaciones spec/activerecord_practice_spec.rb, requieren explícitamente varias gemas. Si se tratara de una aplicación Rails, Rails requeriría automáticamente todas las gemas en su Gemfile cuando se inicie su aplicación, por lo que casi nunca vería requisitos explícitos en los archivos de código.
-Finalmente, para los curiosos, puede que se pregunten por qué las pruebas RSpec se comportan igual cada vez en los casos en los que se modifica la base de datos. Por ejemplo, si pasa con éxito el caso de prueba n.º 12, "eliminar al cliente Meggie Herman", ¿no causaría eso problemas cuando vuelva a ejecutar las pruebas y ese cliente ya haya sido eliminado?
-Esto se maneja ejecutando cada prueba dentro de una transacción de base de datos y, justo antes de que finalice el caso de prueba, generando una pseudoexcepción que hará que la transacción se revierta, lo que provoca que se deshagan todos los cambios visibles dentro de la transacción. Cuando probamos aplicaciones Rails, esta es también la forma en que se maneja la base de datos de prueba: cada caso de prueba (y tendrá cientos o miles de ellos) comienza y termina con la base de datos en el mismo estado "limpio", para que se ejecuten. en un entorno predecible.
+
+1. El Gemfile enumera `active_record` como una dependencia explícita. En una aplicación Rails, Gemfile simplemente enumeraría Rails como una gema, pero Rails a su vez depende de `active_record` y Bundler detectaría y resolvería esa dependencia.
+2. De manera similar, en `activerecord_practica.rb` hay una llamada a `establish_connection`. En una aplicación Rails normal nunca necesitarías esto, ya que Rails se encarga de administrar las conexiones de la base de datos e incluso hay extensiones de Rails que pueden distribuir conexiones entre múltiples bases de datos y manejar la replicación maestro-esclavo.
+3. Los dos archivos de la actividad, `activerecord_practica.rb` y  `spec/activerecord_practica_spec.rb`, requieren explícitamente varias gemas. Si se tratara de una aplicación Rails, Rails requeriría automáticamente todas las gemas en su Gemfile cuando se inicie su aplicación, por lo que casi nunca vería requisitos explícitos en los archivos de código.
+   
+Finalmente, para los curiosos, puede que se pregunten por qué las pruebas RSpec se comportan igual cada vez en los casos en los que se modifica la base de datos. Por ejemplo, si pasas con éxito el caso de prueba  `"eliminar al cliente Meggie Herman"` ¿no causaría eso problemas cuando vuelvas a ejecutar las pruebas y ese cliente ya haya sido eliminado?
+
+Esto se maneja ejecutando cada prueba dentro de una transacción de base de datos y justo antes de que finalice el caso de prueba, generando una `pseudoexcepción` que hará que la transacción se [revierta](https://en.wikipedia.org/wiki/Rollback_(data_management)), lo que provoca que se deshagan todos los cambios visibles dentro de la transacción. 
+
+Cuando probamos aplicaciones Rails, esta es también la forma en que se maneja la base de datos de prueba: cada caso de prueba (y tendrás cientos o miles de ellos) comienza y termina con la base de datos en el mismo estado "limpio", para que se ejecuten. en un entorno predecible.
+
