@@ -117,13 +117,38 @@ Repite el experimento varias veces para responder las siguientes preguntas obser
 - ¿Qué otros verbos `HTTP` son posibles en la ruta de envío del formulario? ¿Puedes hacer que el navegador web genere una ruta que utilice `PUT`, `PATCH` o `DELETE`?. 
 
  
+### HTTP sin estados y cookies  
 
-HTTP sin estados y cookies  
 
-Objetivo de aprendizaje: comprender el efecto de que HTTP sea sin estado y el papel de las cookies 
-
-En esta sección utilizaremos una aplicación sencilla desarrollada para este curso para ayudarte a experimentar con las cookies. Los curiosos pueden ver el código fuente de la aplicación (utiliza el sencillo framework Sinatra). 
+En esta sección utilizaremos una aplicación sencilla desarrollada para este curso para ayudarte a experimentar con las cookies. Puedes ver el [código fuente de la aplicación](https://github.com/saasbook/simple-cookie-demo) (utiliza el sencillo framework Sinatra). 
 
 Esta aplicación sólo admite dos rutas: 
 
-GET / devuelve una cadena de texto que indica si el usuario ha iniciado sesión o no. 
+- `GET /` devuelve una cadena de texto que indica si el usuario ha iniciado sesión o no. 
+- GET /login devuelve una respuesta que indica al navegador que establezca una cookie. La aplicación configura el contenido de las cookies para indicar que el usuario ha iniciado sesión. (En una aplicación real, el servidor ejecutaría algún código que verifica un par de nombre de usuario/contraseña o similar). 
+
+Esta aplicación se encuentra en `http://esaas-cookie-demo.herokuapp.com` pero solo muestra cadenas de texto, no páginas HTML. 
+
+**Pregunta:** Prueba las dos primeras operaciones `GET` anteriores. El cuerpo de la respuesta para la primera debe ser `"Logged in: false"` y para la segunda `"Login cookie set"`. 
+¿Cuáles son las diferencias en los encabezados de respuesta que indican que la segunda operación está configurando una cookie? (Sugerencia: usa `curl -v`, que mostrará tanto los encabezados de solicitud como los encabezados y el cuerpo de la respuesta, junto con otra información de depuración. `curl --help` imprimirá una ayuda voluminosa para usar `cURL` y `man curl` mostrará la página del manual de Unix  para cURL en la mayoría de los sistemas.) 
+
+**Pregunta:** Bien, ahora supuestamente `"logged in"` porque el servidor configuró una cookie que indica esto. Sin embargo, si intentaa `GET /` nuevamente, seguirá diciendo `"Logged: false"`. 
+¿Qué está sucediendo? (Sugerencia: `usa curl -v` y observa los encabezados de solicitud del cliente). 
+
+Para solucionar este problema, tenemos que decirle a curl que almacene las cookies relevantes que envía el servidor, para que sepa incluirlas en futuras solicitudes a ese servidor. 
+
+Prueba `curl -i --cookie-jar cookies.txt http://esaas-cookie-demo.herokuapp.com/login` y verifica que el archivo `cookies.txt` recién creado contenga información sobre la cookie que coincida con el encabezado `Set-Cookie` de el servidor. Este archivo es cómo curl almacena la información de las cookies. Los navegadores pueden hacerlo de manera diferente. 
+
+Ahora debemos decirle a curl que incluya las cookies apropiadas de este archivo cuando visite el sitio, lo cual hacemos con la opción `-b`: 
+
+`curl -v -b cookies.txt http://esaas-cookie-demo.herokuapp.com/` 
+
+Verifica que la cookie ahora se transmita (pista: mira los encabezados de solicitud del cliente) y que el servidor ahora crea que ha iniciado sesión. 
+
+**Pregunta:** Al observar el encabezado `Set-Cookie` o el contenido del archivo `cookies.txt`, parece que podría haber creado fácilmente esta cookie y simplemente obligar al servidor a creer que ha iniciado sesión. En la práctica, ¿cómo evitan los servidores esta inseguridad? 
+
+Para resumir: la única forma en que el servidor puede "realizar un seguimiento" del mismo cliente es configurando una cookie cuando el cliente visita por primera vez, confiando en que el cliente incluya esa cookie en los encabezados en visitas posteriores y si el servidor modifica la cookie. durante la sesión (al incluir encabezados `Set-Cookie` adicionales), confiando en que el cliente también recuerde esos cambios. 
+
+De esta manera, aunque HTTP en sí no tiene estado (cada solicitud es independiente de las demás), la aplicación puede mantener internamente la noción de "estado de sesión" para cada cliente, utilizando la cookie como un "identificador" para nombrar ese estado internamente. (En la práctica, la mayoría de las aplicaciones SaaS utilizan la cookie para conservar una clave de búsqueda que asigna el valor de la cookie a una estructura de datos más grande y compleja almacenada en el servidor). 
+
+Deshabilitar las cookies en el cliente frustra todos estos comportamientos, razón por la cual la mayoría de los sitios que requieren iniciar sesión  o que te guían a través de una secuencia de páginas para hacer una operación no funcionan correctamente si las cookies están deshabilitadas en el navegador. 
