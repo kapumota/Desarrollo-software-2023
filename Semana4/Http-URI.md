@@ -1,9 +1,9 @@
-### Introducción a HTTP y URI 
+## Introducción a HTTP y URI 
 
 - Utiliza las herramientas de línea de comandos [curl](https://curl.se/) y [nc](https://nmap.org/ncat/) para experimentar y aprender sobre HTTP y las cookies.
 - Comprender los conceptos básicos de cómo se construyen las solicitudes y respuestas HTTP y la interacción entre un cliente SaaS y un servidor mediante HTTP.
-- Comprender algunos de los códigos de error HTTP más comunes y su significado
-- Comprender cómo se gestionan las cookies entre clientes y servidores 
+- Comprender algunos de los códigos de error HTTP más comunes y su significado.
+- Comprender cómo se gestionan las cookies entre clientes y servidores.
 
 #### Requisitos previos 
 
@@ -13,8 +13,7 @@ shell que ejecute un programa y muestre el resultado.
 
 ### Configuración
 
-Usaremos dos herramientas de línea de comandos [CURL](https://www.hostinger.es/tutoriales/comando-curl ) (pronunciado "curl") para actuar como cliente SaaS y
-[netcat](https://nmap.org/ncat/))(pronunciado "netcat") para actuar como servidor SaaS. 
+Usaremos dos herramientas de línea de comandos [curl](https://www.hostinger.es/tutoriales/comando-curl ) para actuar como cliente SaaS y [netcat](https://nmap.org/ncat/) para actuar como servidor SaaS. 
 
 También trabajaremos con un sitio web  generador de palabras aleatorias: http://randomword.saasbook.info/.
 
@@ -32,9 +31,9 @@ especiales, como `?` o `#`, que el shell de Unix interpretaría de manera especi
 
 Guarda el contenido del comando `curl` anterior en un archivo y visualiza el archivo como lo representaría un navegador. 
 
-Sugerencia 1: agregar `>nombreArchivo` al final de una línea de comando del shell hace que la salida del comando se almacene en ese archivo en lugar de mostrarse en la ventana del terminal. 
+**Sugerencia 1:** agregar `>nombreArchivo` al final de una línea de comando del shell hace que la salida del comando se almacene en ese archivo en lugar de mostrarse en la ventana del terminal. 
 
-Sugerencia 2: Vista previa del archivo en un navegador:  Si estás guardando archivos en el disco duro de tu propia computadora, almacena el resultado del comando en un archivo con 
+**Sugerencia 2:** Vista previa del archivo en un navegador:  Si estás guardando archivos en el disco duro de tu propia computadora, almacena el resultado del comando en un archivo con 
 una extensión `.html` y abre el archivo creado con tu navegador.  
 
 
@@ -64,4 +63,67 @@ y(AND) luego el cuerpo de la respuesta.
 utilizó el servidor para responder al cliente? 
 
 **Pregunta:** Cualquier solicitud web determinada puede devolver una página HTML, una imagen u otros tipos de entidades. 
-¿Hay algo en los encabezados que crea que le dice al cliente cómo interpretar el resultado? 
+¿Hay algo en los encabezados que crea que le dice al cliente cómo interpretar el resultado?.
+
+### ¿Qué sucede cuando falla un HTTP request? 
+
+
+**Pregunta:** ¿Cuál sería el código de respuesta del servidor si intentaras buscar una URL inexistente en el sitio generador de palabras aleatorias? Pruéba esto utilizando el procedimiento anterior. 
+
+¿Qué otros códigos de error HTTP existen? Utiliza Wikipedia u otro recurso para conocer los significados de algunos de los más comunes: `200`, `301`, `302`, `400`, `404`, `500`. Ten en cuenta que estas son `familias` de estados: todos los estados 2xx significan `funcionó`, todos los 3xx son `redireccionar` etc. 
+
+Tanto el encabezado `4xx` como el `5xx` indican condiciones de error. ¿Cuál es la principal diferencia entre `4xx` y `5xx`?. 
+
+### ¿Qué es un cuerpo de Request? 
+
+A continuación, crearemos un formulario HTML simple que puedes publicar desde tu navegador e interceptarlo con Netcat como se indicó anteriormente, para que puedas ver cómo se ve un formulario publicado en un servidor web. Esto es relevante porque en tus propias aplicaciones SaaS tendrás que trabajar con los datos del formulario enviado.  
+
+Si bien la mayoría de los frameworks como [Sinatra](https://sinatrarb.com/) y [Rails](https://rubyonrails.org/) hacen un buen trabajo al analizar y predigerir dichos datos de formulario para que estén convenientemente disponibles para tu aplicación, vale la pena comprender cómo se ven normalmente esos datos antes de dicho procesamiento. 
+
+Una vez más, inicia `nc -l 8081` para escuchar en el puerto `8081`. 
+
+Crea y guarda (idealmente con extensión .html) el siguiente archivo:
+
+```
+ <!DOCTYPE html>
+  <html>
+  <head>
+    </head>
+    <body> <form method="post" action="Url-servidor-falso">
+      <label>Email:</label>
+       <input type="text" name="email">
+        <label>Password:</label>
+        <input type="password" name="password">
+        <input type="hidden" name="secret_info" value="secret_value">
+        <input type="submit" name="login" value="Log In!">
+      </form>
+    </body>
+  </html> 
+```
+
+**Pregunta:** Cuando se envía un formulario HTML, se genera una solicitud HTTP `POST` desde el navegador. Para llegar a tu servidor falso, 
+¿con qué URL deberías reemplazar `Url-servidor-falso` en el archivo anterior? 
+
+Modifica el archivo, ábrelo en el navegador web de tu computadora, completa algunos valores en el formulario y envíalo. Ahora ve a tu terminal y mira la ventana donde `nc` está escuchando. 
+
+**Pregunta:**¿Cómo se presenta al servidor la información que ingresó en el formulario? ¿Qué tareas necesitaría realizar un framework SaaS como Sinatra o Rails para presentar esta información en un formato conveniente a una aplicación SaaS escrita, por ejemplo, en Ruby? 
+
+Repite el experimento varias veces para responder las siguientes preguntas observando las diferencias en el resultado impreso por `nc`: 
+
+- ¿Cuál es el efecto de agregar parámetros `URI` adicionales como parte de la ruta `POST`?
+- ¿Cuál es el efecto de cambiar las propiedades de nombre de los campos del formulario?
+- ¿Puedes tener más de un botón `Submit`? Si es así, ¿cómo sabe el servidor en cuál se hizo clic? (Sugerencia: experimenta con los atributos de la etiqueta `<submit>`).
+- ¿Se puede enviar el formulario mediante `GET` en lugar de `POST`? En caso afirmativo, ¿cuál es la diferencia en cómo el servidor ve esas solicitudes?
+- ¿Qué otros verbos `HTTP` son posibles en la ruta de envío del formulario? ¿Puedes hacer que el navegador web genere una ruta que utilice `PUT`, `PATCH` o `DELETE`?. 
+
+ 
+
+HTTP sin estados y cookies  
+
+Objetivo de aprendizaje: comprender el efecto de que HTTP sea sin estado y el papel de las cookies 
+
+En esta sección utilizaremos una aplicación sencilla desarrollada para este curso para ayudarte a experimentar con las cookies. Los curiosos pueden ver el código fuente de la aplicación (utiliza el sencillo framework Sinatra). 
+
+Esta aplicación sólo admite dos rutas: 
+
+GET / devuelve una cadena de texto que indica si el usuario ha iniciado sesión o no. 
