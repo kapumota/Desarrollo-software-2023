@@ -38,18 +38,18 @@ Tu objetivo es escribir consultas de ActiveRecord en la base de datos de cliente
 
 Cada consulta que escribas estará "envuelta" en su propio método de `class Customer < ActiveRecord::Base`, que se define en `activerecord_practica.rb`.
 
-Sin embargo, no ejecutes este archivo directamente. En su lugar, utilizarás el archivo de especificación, que contiene una prueba para cada una de las consultas que debe escribir.
+Sin embargo, no ejecutes este archivo directamente. En su lugar, utilizarás el archivo de especificación (specfile), que contiene una prueba para cada una de las consultas que debe escribir.
 
 - Ejecuta el archivo de prueba una vez con `bundle exec rspec spec/activerecord_practice_spec.rb`. (Recuerda que `bundle exec` es necesario para garantizar que las versiones
   correctas de las gemas requeridas se carguen y activen correctamente antes de ejecutar el código). El resultado debe ser `13 ejemplos, 0 fallas, 13 pendientes`.
 
 Hemos configurado las pruebas para que inicialmente se omitan todas las pruebas. (Todos fallarían porque aún no has escrito el código para ellos). 
-Abre el archivo de especificaciones y echa un vistazo. Su flujo de trabajo será el siguiente:
-Elige un ejemplo para trabajar (recomendamos hacerlo en orden). Cada ejemplo (caso de prueba) comienza con xspecify.
-En ese ejemplo, cambie xspecify para especificar y guardar el archivo; Este cambio hará que esa prueba en particular no se omita en la siguiente ejecución de prueba.
-La prueba fallará inmediatamente porque no has escrito el código necesario.
-Escribirá el código necesario y aprobará la prueba; luego pase al siguiente ejemplo.
+Abre el specfile  y echa un vistazo. tu flujo de trabajo será el siguiente:
 
+1. Escoge  un ejemplo para trabajar (recomendamos hacerlo en orden). Cada ejemplo (caso de prueba) comienza con `xspecify`.
+2. En ese ejemplo, cambia `xspecify` por `specify` y guarda el archivo. Este cambio hará que esa prueba en particular no se omita en la siguiente ejecución de prueba.
+3. La prueba fallará inmediatamente porque no has escrito el código necesario.
+4. Escribiras el código necesario y aprobarás la prueba, luego pasa al siguiente ejemplo.
 
 ### Automatizar el flujo de trabajo usando Guard
 ¿Significa esto que debe ejecutar rspec manualmente cada vez que desee trabajar en un ejemplo nuevo? ¡No! Afortunadamente existe cierta automatización que puede ayudarnos. guard es una joya que detecta cambios en los archivos de su proyecto y, cuando lo hacen, vuelve a ejecutar automáticamente un conjunto predefinido de pruebas. Hemos configurado guard aquí para que cada vez que cambie el archivo specfile o activerecord_practice.rb, 
