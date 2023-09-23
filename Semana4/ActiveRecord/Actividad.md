@@ -4,7 +4,7 @@ Para esta actividad, hemos creado una base de datos de 30 clientes falsos, con n
 (cortesía de [Faker gem](https://github.com/faker-ruby/faker)) y escribirás varias consultas de ActiveRecord para extraer y/o actualizar subconjuntos de estos clientes.
 
 Como beneficio adicional, obtendrás más experiencia utilizando las **pruebas continuas**, en las que cada vez que realiza un cambio en el código o las 
-pruebas, se vuelve a ejecutar automáticamente un conjunto completo de pruebas automatizadas. De esta manera, puedes entrar en un "ritmo" de codificación y pruebas sin volver a 
+pruebas, se vuelve a ejecutar automáticamente un conjunto completo de pruebas automatizadas. De esta manera, puedes entrar en un ritmo de codificación y pruebas sin volver a 
 ejecutar manualmente las pruebas proporcionadas para ver si tu código es correcto.
 
 Los archivos de esta tarea son:
@@ -52,19 +52,33 @@ Abre el specfile  y echa un vistazo. tu flujo de trabajo será el siguiente:
 4. Escribiras el código necesario y aprobarás la prueba, luego pasa al siguiente ejemplo.
 
 ### Automatizar el flujo de trabajo usando Guard
-¿Significa esto que debe ejecutar rspec manualmente cada vez que desee trabajar en un ejemplo nuevo? ¡No! Afortunadamente existe cierta automatización que puede ayudarnos. guard es una joya que detecta cambios en los archivos de su proyecto y, cuando lo hacen, vuelve a ejecutar automáticamente un conjunto predefinido de pruebas. Hemos configurado guard aquí para que cada vez que cambie el archivo specfile o activerecord_practice.rb, 
-vuelva a ejecutar todas las pruebas que comiencen con spec (a diferencia de xspecify). (Si tiene curiosidad acerca de cómo funciona Guard, puede buscar en Guardfile para verlo, pero no necesita preocuparse por eso).
-En una ventana de terminal, escriba guard. Deberías ver algo como
-"La guardia ahora está mirando..."
-Aunque vea un mensaje (guardia(principal)>), no necesita escribir nada. En una ventana del editor, realice un cambio trivial en el archivo de especificaciones o en activerecord_practice.rb, como insertar un espacio, y guarde el archivo. En uno o dos segundos, la ventana de terminal que ejecuta Guard debería cobrar vida cuando Guard intenta volver a ejecutar las pruebas.
-Consigue que pase tu primer ejemplo
-Trabajemos en el ejemplo n.° 1 que se enumera en el resultado de rspec. La salida debería verse así:
 
-Como sugiere el resultado, eche un vistazo a la línea 40 en el archivo de especificaciones. En el cuerpo del caso de prueba, puede ver que la prueba intentará llamar al método de clase Customer.any_candice. Cambie xspecify para especificar en la línea 40, guarde el archivo de especificaciones y Guard debería ejecutar las pruebas una vez más; pero esta vez, la prueba número 1 no se omitirá sino que fallará.
-Ahora vaya a lib/activerecord_practice.rb donde hemos definido un método vacío Customer.any_candice. Complete el cuerpo de este método para que devuelva el enumerable de objetos Cliente cuyos nombres coincidan con "Candice".
-(Recordatorio: el archivo clientes.csv contiene una versión exportada del contenido de clientes.sqlite3, que es la base de datos utilizada por este código). Cada vez que realiza un cambio y guarda activerecord_practice.rb, Guard volverá a ejecutar las pruebas. Cuando finalmente consigas llamar correctamente al método, la prueba pasará y el nombre de la prueba se imprimirá en verde, con todas las pruebas aún pendientes impresas en amarillo. Luego puedes pasar al siguiente ejemplo.
-Tenga en cuenta que para la mayoría de los casos de prueba, el caso de prueba fallará inicialmente porque el método de clase de Cliente al que intenta llamar no existe en absoluto (solo proporcionamos esqueletos de métodos vacíos para los primeros ejemplos). Pero al leer el código de cada caso de prueba, puede ver cómo se espera que se nombre el método de clase y definirlo usted mismo.
-Cuando todos los ejemplos pasen (RSpec debe imprimir el nombre de cada ejemplo pasado en verde), ¡ya estará listo!
+¿Significa esto que debes ejecutar rspec manualmente cada vez que desees trabajar en un ejemplo nuevo? ¡No! Afortunadamente existe cierta automatización que puede ayudarnos. 
+[guard](https://rubygems.org/gems/guard/versions/2.18.0) es una joya que detecta cambios en los archivos de tu proyecto y cuando lo hace, vuelve a ejecutar automáticamente un conjunto predefinido de pruebas. 
+
+Hemos configurado guard aquí para que cada vez que cambies el archivo `specfile` o `activerecord_practica.rb`,  vuelvas a ejecutar todas las pruebas que comiencen con `spec` (a diferencia de `xspecify`). 
+
+(Si tiene curiosidad acerca de cómo funciona `Guard`, puede buscar en `Guardfile` para verlo).
+
+- En una ventana de terminal, escribe `guard`. Deberías ver algo como: "Guard is now watching..."
+  
+Aunque veas un prompt `(guard(main)>)`, no necesitas escribir nada. En una ventana del editor, realiza un cambio trivial en el specfile o en `activerecord_practica.rb`, como insertar un espacio, y guarda el archivo. En uno o dos segundos, la ventana de terminal que ejecuta Guard debería cobrar vida cuando Guard intenta volver a ejecutar las pruebas.
+
+### Como pasar un ejemplo
+
+Trabaja en el primer ejemplo que se enumera en el resultado de `rspec`. ¿Cuál es la salida que debería mostrarse? 
+
+Como sugiere el resultado, echa un vistazo a la linea `xspecify 'alguien con el nombre de Candice'`. En el cuerpo del caso de prueba, puedes ver que la prueba intentará llamar al método de clase `Customer.any_candice`. Cambia `xspecify` por `specify`  guarda el specfile  y Guard debería ejecutar las pruebas una vez más,  pero esta vez, la prueba número 1 no se omitirá sino que fallará.
+
+Ahora ve a `lib/activerecord_practica.rb` donde hemos definido un método vacío `Customer.any_candice`. Completa el cuerpo de este método para que devuelva el enumerable de objetos `Customer` cuyos nombres coincidan con "Candice". (Recordatorio: el archivo `customers.csv` contiene una versión exportada del contenido de `customers.sqlite3`, que es la base de datos utilizada por este código). 
+Cada vez que realizas un cambio y guardaa `activerecord_practica.rb`, Guard volverá a ejecutar las pruebas. 
+
+Cuando finalmente consigas llamar correctamente al método, la prueba pasará y el nombre de la prueba se imprimirá en verde, con todas las pruebas aún pendientes impresas en amarillo. Luego puedes pasar al siguiente ejemplo.
+
+Ten en cuenta que para la mayoría de los casos de prueba, el caso de prueba fallará inicialmente porque el método de clase de `Customer `al que intentas llamar no existe en absoluto (solo proporcionamos esqueletos de métodos vacíos para los primeros ejemplos). Pero al leer el código de cada caso de prueba, puedes ver cómo se espera que se nombre el método de clase y definirlo tu mismo.
+
+Cuando todos los ejemplos pasen (RSpec debe imprimir el nombre de cada ejemplo pasado en verde), ¡habrás terminado la actividad!.
+
 NOTA: Si desea probar los ejemplos de forma interactiva, inicie el intérprete de Ruby con el paquete exec irb y luego, dentro del intérprete de Ruby, escriba cargar 'activerecord_practice.rb'. Esto definirá la clase Cliente y le permitirá probar cosas como Customer.where(...) directamente en el REPL (bucle de lectura-evaluación-impresión).
 Consejos y enlaces útiles
 Como de costumbre, tendrás que buscar la documentación de ActiveRecord para saber cómo hacer que funcionen estas consultas, lo cual es parte del proceso de aprendizaje:
