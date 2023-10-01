@@ -39,6 +39,21 @@ Como todas las aplicaciones Rails, puedes ejecutar esta siguiendo estos pasos:
 
 1. ¿Cuál es el objetivo de ejecutar `bundle install`?
 2. ¿Por qué es una buena práctica especificar `--without production` al ejecutarlo en tu computadora de desarrollo?
-3. (Para la mayoría de las aplicaciones Rails, también tendrías que crear y inicializar la base de datos de desarrollo, pero al igual que la aplicación Sinatra, esta aplicación no utiliza ninguna base de datos).
+3. Para la mayoría de las aplicaciones Rails, también tendrías que crear y inicializar la base de datos de desarrollo, pero al igual que la aplicación Sinatra, esta aplicación no utiliza ninguna base de datos.
 Juega con el juego para convencerte de que funciona igual que la versión de Sinatra.
 
+### Dónde están las cosas
+
+Ambas aplicaciones tienen una estructura similar: el usuario activa una acción en un juego mediante una solicitud HTTP. Se llama a un fragmento particular de código para "manejar" la solicitud según corresponda, se llama a la lógica de la clase `WordGuesserGame` para manejar la acción y normalmente, se representa una vista para mostrar el resultado. 
+
+Pero las ubicaciones del código correspondiente a cada una de estas tareas son ligeramente diferentes entre Sinatra y Rails.
+
+1. ¿En qué parte de la estructura del directorio de la aplicación Rails está el código correspondiente al modelo `WordGuesserGame`?
+2. ¿En qué archivo está el código que más se corresponde con la lógica del archivo `app.rb` de las aplicaciones Sinatra que maneja las acciones entrantes del usuario?
+3. ¿Qué clase contiene ese código?
+4. ¿De qué otra clase (que es parte del framework Rails) hereda esa clase?
+5. ¿En qué directorio está el código correspondiente a las vistas de la aplicación Sinatra (`new.erb`, `show.erb`, etc.)?
+6. Los sufijos de nombre de archivo para estas vistas son diferentes en Rails que en la aplicación Sinatra. ¿Qué información proporciona el sufijo situado más a la derecha del nombre del archivo (por ejemplo: en `foobar.abc.xyz`, el sufijo `.xyz`) sobre el contenido del archivo?
+7. ¿Qué información te brinda el otro sufijo sobre lo que se le pide a Rails que haga con el archivo?
+8. ¿En qué archivo está la información de la aplicación Rails que asigna rutas (por ejemplo, `GET/new`) a las acciones del controlador?
+9. ¿Cuál es el papel de la opción `:as => 'name'` en las declaraciones de ruta de `config/routes.rb`? (Pista: mira las vistas).
