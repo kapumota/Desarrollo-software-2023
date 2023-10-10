@@ -29,7 +29,7 @@ sólo una forma simplificada de escribir `i=i+f.  Diseña y pon a prueba un expe
         f.reject(&:odd?)             # => [2, 8]
         f.map { |x| 2*x }            # => [2, 2, 4, 6, 10, 16]
       ```
-14. Un árbol binario ordenado es aquel en el que cada nodo tiene un valor y hasta 2 hijos, cada uno de los cuales es también un árbol binario ordenado, y el valor de cualquier elemento del subárbol izquierdo de un nodo es menor que el valor de cualquier elemento en el subárbol derecho del nodo. Definaeuna clase colección llamada `BinaryTree` que ofrezca los métodos de instancia `<<` (insertar elemento), `empty?` (devuelve cierto si el árbol no tiene elementos) y `each` (el iterador estándar que devuelve un elemento cada vez, en el orden que tu quieras).
+14. Un árbol binario ordenado es aquel en el que cada nodo tiene un valor y hasta 2 hijos, cada uno de los cuales es también un árbol binario ordenado, y el valor de cualquier elemento del subárbol izquierdo de un nodo es menor que el valor de cualquier elemento en el subárbol derecho del nodo. Define una clase colección llamada `BinaryTree` que ofrezca los métodos de instancia `<<` (insertar elemento), `empty?` (devuelve cierto si el árbol no tiene elementos) y `each` (el iterador estándar que devuelve un elemento cada vez, en el orden que tu quieras).
 15. Extienda la clase de tu árbol binario ordenado para que ofrezca los siguientes métodos, cada uno de los cuales toma un bloque: `include?(elt)` (devuelve cierto si el árbol incluye a `elt`), `all?` (cierto si un bloque dado es cierto para todos los elementos), `any?` (cierto si un bloque dado es cierto para alguno de sus elementos), `sort` (ordena los elementos).
 #### Otros ejercicios
 
