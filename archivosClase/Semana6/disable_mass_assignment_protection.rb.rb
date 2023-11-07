@@ -1,1 +1,0 @@
-config.active_record.mass_assignment_sanitizer = :strict
