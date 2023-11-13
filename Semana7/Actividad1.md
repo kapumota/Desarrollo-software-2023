@@ -106,3 +106,62 @@ class MoviesController < ApplicationController
   end
 end
 ```
+Comprueba que el código siguiente ilustra cómo utilizar este mecanismo para “canonicalizar” (estandarizar el formato de) ciertos campos del modelo antes de guardar el modelo. 
+
+```
+class Movie < ActiveRecord::Base
+    before_save :capitalize_title
+    def capitalize_title
+        self.title = self.title.split(/\s+/).map(&:downcase).
+        map(&:capitalize).join(' ')
+    end
+end
+```
+Comprueba en la consola :
+
+```
+m = Movie.create!(:title => 'STAR  wars', :release_date => '27-5-1977', :rating => 'PG')
+m.title  # => "Star Wars"
+```
+
+Análogo a una validación es un filtro de controlador: un método que verifica si ciertas condiciones son verdaderas antes de ejecutar una acción o establece condiciones comunes en las que dependen muchas acciones. Si no se cumplen las condiciones, el filtro puede optar por "detener la presentación" mostrando una plantilla de vista o redirigiendo a otra acción. Si el filtro permite que la acción continúe, será responsabilidad de la acción dar una respuesta, como es habitual. 
+
+Por ejemplo, un uso extremadamente común de los filtros es imponer el requisito de que un usuario inicie sesión antes de poder realizar determinadas acciones. El código  muestra un filtro que exige que un usuario válido ha iniciado sesión. Comprueba el resultado del código.
+
+```
+class ApplicationController < ActionController::Base
+    before_filter :set_current_user
+    protected # prevents method from being invoked by a route
+    def set_current_user
+        # we exploit the fact that the below query may return nil
+        @current_user ||= Moviegoer.where(:id => session[:user_id])
+        redirect_to login_path and return unless @current_user
+    end
+end
+```
+
+#### SSO y autenticación a través de terceros 
+
+Una manera de ser más DRY y productivo es evitar implementar funcionalidad que se puede reutilizar a partir de otros servicios. 
+Un ejemplo muy actual de esto es la autenticación. 
+
+Afortunadamente, añadir autenticación en las aplicaciones Rails a través de terceros es algo directo. Por supuesto, antes de que permitamos iniciar sesión a un usuario, ¡necesitamos poder representar usuarios! Así que antes de continuar, vamos a crear un modelo y una migración básicos siguiendo las instrucciones del código  siguiente:
+
+a) Escribe este comando en una terminal para crear un modelo moviegoers y una migración, y ejecuta rake db:migrate para aplicar la migración. 
+
+```
+rails generate model Moviegoer name:string provider:string uid:string
+```
+b) Luego edita el archivo `app/models/moviegoer.rb` generado para que coincida con este código. 
+
+```
+# Edit app/models/moviegoer.rb to look like this:
+class Moviegoer < ActiveRecord::Base
+    def self.create_with_omniauth(auth)
+        Moviegoer.create!(
+        :provider => auth["provider"],
+        :uid => auth["uid"],
+        :name => auth["info"]["name"])
+    end
+end
+```
