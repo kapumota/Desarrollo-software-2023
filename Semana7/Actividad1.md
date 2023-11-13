@@ -69,7 +69,6 @@ Explica el código siguiente :
 
 ```
 class MoviesController < ApplicationController
-  # 'index' and 'show' methods from Section 4.4 omitted for clarity
   def new
     @movie = Movie.new
   end 
