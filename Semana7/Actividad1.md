@@ -268,3 +268,69 @@ c) Coloca una copia de la siguiente línea en cualquier lugar dentro de la clase
 ```
 has_many :reviews
 ```
+
+#### Asociaciones indirectas
+Volviendo a la figura siguiente, vemos asociaciones directas entre Moviegoers y Reviews, así como entre Movies y Reviews.
+
+<img src="https://e.saasbook.info/assets/Chapter5/5.9-1ff7ee5268d1af8d2bc0cd61ac7a0f113c248deb1188de757f86b0e192d9c2b2.jpg" alt="drawing" width="500"/>
+
+Comprueba que el código muestra cómo se usa la opción `:through` en `has_many` para representar una asociación indirecta. De la misma manera, puede añadir `has_many:moviegoers,:through=>:reviews` al modelo `Movie` y escribir `movie.moviegoers` para preguntar qué usuarios están asociados con (escribieron críticas de) una película dada. 
+
+```
+# Run 'rails generate migration create_reviews' and then
+#   edit db/migrate/*_create_reviews.rb to look like this:
+class CreateReviews < ActiveRecord::Migration
+    def change
+        create_table 'reviews' do |t|
+        t.integer    'potatoes'
+        t.text       'comments'
+        t.references 'moviegoer'
+        t.references 'movie'
+        end
+    end
+end
+```
+
+¿Qué indica el siguiente código SQL ?
+
+```
+SELECT movies .*
+    FROM movies JOIN reviews ON movies.id = reviews.movie_id
+    JOIN moviegoers ON moviegoers.id = reviews.moviegoer_id
+    WHERE moviegoers.id = 1;
+```
+Se ha  añadido `has_many :reviews` a la clase `Movie`.  El método `has_many` utiliza la metaprogramación para definir el nuevo método de `instancia reviews=` que usamos en el código siguiente.     
+
+```
+# it would be nice if we could do this:
+inception = Movie.where(:title => 'Inception')
+alice,bob = Moviegoer.find(alice_id, bob_id)
+# alice likes Inception, bob less so
+alice_review = Review.new(:potatoes => 5)
+bob_review   = Review.new(:potatoes => 3)
+# a movie has many reviews:
+inception.reviews = [alice_review, bob_review]
+# a moviegoer has many reviews:
+alice.reviews << alice_review
+bob.reviews << bob_review
+# can we find out who wrote each review?
+inception.reviews.map { |r| r.moviegoer.name } # => ['alice','bob']
+```
+
+Las asociaciones representan uno de los aspectos de Rails con una funcionalidad completa así que eche una ojeada a su documentación completa. En concreto: 
+
+* Al igual que el ciclo de vida de los hooks de ActiveRecord, las asociaciones ofrecen formas de intervención que se pueden lanzar cuando se añaden o se borran objetos de una asociación (como cuando se añaden nuevas Reviews a una Movie), y que son distintos del ciclo de vida de los hooks de  `Movies` o `Reviews` por separado.
+* Las validaciones se pueden declarar en modelos asociados, como se muestra en el código.
+
+```
+class Review < ActiveRecord::Base
+    # review is valid only if it's associated with a movie:
+    validates :movie_id , :presence => true
+    # can ALSO require that the referenced movie itself be valid
+    # in order for the review to be valid:
+    validates_associated :movie
+end
+```
+* Como llamar a `save` o `save!` sobre un objeto que usa asociaciones también afecta a los objetos a los que esté asociado, se aplican algunas salvedades si alguno de estos métodos falla. Por ejemplo, si acabas de crear una nueva `Movie` y dos nuevas `Review que asociar a esa `Movie`, e intenta guardar dicha película, cualquiera de los tres métodos save que se apliquen fallarán si los objetos no son válidos (entre otras razones).  !Comprueba esto!.
+
+* Existen opciones adicionales en los métodos de asociaciones que controlan lo que pasa a los objetos que son “tenidos” cuando el objeto “poseedor” se destruye. Por ejemplo, `has_many :reviews,:dependent=>:destroy` especifica que las críticas que pertenezcan a una determina película se deben borrar de la base de datos si se borra esa película.
