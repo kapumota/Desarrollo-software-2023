@@ -165,3 +165,106 @@ class Moviegoer < ActiveRecord::Base
     end
 end
 ```
+Se puede autenticar al usuario a través de un tercero. Usar la excelente gema OmniAuth que proporciona una API uniforme para muchos proveedores de SSO diferentes. 
+El código siguiente muestra los cambios necesarios en sus rutas, controladores y vistas para usar OmniAuth.  
+
+```
+#routes.rb
+get  'auth/:provider/callback' => 'sessions#create'
+get  'auth/failure' => 'sessions#failure'
+get  'auth/twitter', :as => 'login'
+post 'logout' => 'sessions#destroy'
+```
+
+```
+class SessionsController < ApplicationController
+  # login & logout actions should not require user to be logged in
+  skip_before_filter :set_current_user  # check you version
+  def create
+    auth = request.env["omniauth.auth"]
+    user =
+      Moviegoer.where(provider: auth["provider"], uid: auth["uid"]) ||
+      Moviegoer.create_with_omniauth(auth)
+    session[:user_id] = user.id
+    redirect_to movies_path
+  end
+  def destroy
+    session.delete(:user_id)
+    flash[:notice] = 'Logged out successfully.'
+    redirect_to movies_path
+  end
+end
+```
+```
+# Replace API_KEY and API_SECRET with the values you got from Twitter
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, "API_KEY", "API_SECRET"
+end
+```
+
+La mayoría de los proveedores de autenticación requieren que tu registre cualquier aplicación que utilizará su sitio para la autenticación, por lo que en este ejemplo necesitarás crear una cuenta de desarrollador de Twitter, que te asignará una clave API y un secreto API que especificarás en `config/initializers/ omniauth.rb` (codigo anterior, abajo).
+
+**Pregunta:** Debes tener cuidado para evitar crear una vulnerabilidad de seguridad. ¿Qué sucede si un atacante malintencionado crea un envío de formulario que intenta modificar `params[:moviegoer][:uid]` o `params[:moviegoer][:provider]` (campos que solo deben modificarse mediante la lógica de autenticación) publicando campos de formulario ocultos denominados `params[moviegoer][uid]` y así sucesivamente?.
+
+#### Asociaciones y claves foráneas 
+
+Una asociación es una relación lógica entre dos tipos de entidades de una arquitectura software. 
+Por ejemplo, podemos añadir a RottenPotatoes las clases Review (crítica) y Moviegoer (espectador o usuario) para permitir que los usuarios escriban críticas sobre sus películas favoritas; podríamos hacer esto añadiendo una asociación de uno a muchos (one-to-many) entre las críticas y las películas (cada crítica es acerca de una película) y entre críticas y usuarios (cada crítica está escrita por exactamente un usuario). 
+
+Explica la siguientes líneas de SQL:
+
+```
+SELECT reviews.*
+    FROM movies JOIN reviews ON movies.id=reviews.movie_id
+    WHERE movies.id = 41;
+```
+
+Comprueba la implementación sencilla de asociaciones de hacer referencia directamente a objetos asociados, aunque estén almacenados en diferentes tablas de bases de datos. ¿Por que se puede hacer esto?
+
+```
+# it would be nice if we could do this:
+inception = Movie.where(:title => 'Inception')
+alice,bob = Moviegoer.find(alice_id, bob_id)
+# alice likes Inception, bob less so
+alice_review = Review.new(:potatoes => 5)
+bob_review   = Review.new(:potatoes => 3)
+# a movie has many reviews:
+inception.reviews = [alice_review, bob_review]
+# a moviegoer has many reviews:
+alice.reviews << alice_review
+bob.reviews << bob_review
+# can we find out who wrote each review?
+inception.reviews.map { |r| r.moviegoer.name } # => ['alice','bob']
+```
+
+Aplica los cambios del código siguiente y arranca `rails console` y ejecutar correctamente los ejemplos del código. 
+
+(a): Crea y aplica esta migración para crear la tabla Reviews. Las claves foraneas del nuevo modelo están relacionadas con las tablas movies y moviegoers existentes por convención sobre la configuración. 
+
+```
+# Run 'rails generate migration create_reviews' and then
+#   edit db/migrate/*_create_reviews.rb to look like this:
+class CreateReviews < ActiveRecord::Migration
+    def change
+        create_table 'reviews' do |t|
+        t.integer    'potatoes'
+        t.text       'comments'
+        t.references 'moviegoer'
+        t.references 'movie'
+        end
+    end
+end
+```
+b) Coloca este nuevo modelo de revisión en `app/models/review.rb`. 
+```
+class Review < ActiveRecord::Base
+    belongs_to :movie
+    belongs_to :moviegoer
+end
+```
+
+c) Coloca una copia de la siguiente línea en cualquier lugar dentro de la clase Movie Y dentro de la clase `Moviegoer` (idiomáticamente, debería ir justo después de 'class Movie' o 'class Moviegoer'), es decir realiza este cambio de una línea en cada uno de los archivos existentes `movie.rb` y `moviegoer.rb`.
+
+```
+has_many :reviews
+```
