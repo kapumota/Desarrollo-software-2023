@@ -1,6 +1,6 @@
 ### Ruby en Rails avanzado
 
-En esta actividad grupal, construiras un repositorio llamado Rails-Avanzado y presentarás en clase tus resultados. Utiliza https://github.com/kapumota/Desarrollo-software-2023/tree/main/Semana7/myrottenpotatoes.
+En esta actividad individual, construiras un repositorio llamado Rails-Avanzado y presentarás en clase tus resultados. Utiliza https://github.com/kapumota/Desarrollo-software-2023/tree/main/Semana7/myrottenpotatoes.
 
 El código dado tiene algunos errores en la lógica del proceso del uso de frameworks y presente casi todos los tópicos avanzados en clase.
 
