@@ -74,7 +74,8 @@ class ReviewsController < ApplicationController
     end
 end
 ```
-
+**Ejercicio:** Extiende el código del controlador anterior con los métodos `edit` y `update` para las críticas. Usea un filtro de controlador para asegurarse de que un usuario
+sólo puede editar o actualizar sus propias críticas.
 ```
 <h1> New Review for <%= @movie.title %> </h1>
 
@@ -100,9 +101,16 @@ o
 
 #### Repaso
 
-1. Al realizar una consulta de base de datos como `@reviews = Review.where(rating: 5)`​, que luego llamamos `​@reviews.each haz |review| ; review.moviegoers.first` ​que debemos hacer?
-2. Supongamos que queremos agregar un modelo `Theaters` a Rotten Potatoes, con la suposición simplificadora de que cada `Theater (cine)` muestra solo una película en un momento dado, pero para una `Movie` determinada podría proyectarse en muchos `Theater`. Además de agregar una tabla `theaters` a la base de datos, ¿qué pasos son necesarios para que `movie.theaters` devuelva una lista de todos los cines en los que se proyecta una película?.
-3. Suponiendo que una película tiene muchas reseñas, una reseña pertenece a una sola película y existe el ID de película 5, ¿qué tablas se actualizarán como resultado del siguiente código?
+1. ¿Es mejor utilizar un enfoque de desarrollo del lado del cliente o del lado del servidor al diseñar una aplicación que implica la entrada de datos a través de formularios HTML
+2. Al realizar una consulta de base de datos como `@reviews = Review.where(rating: 5)`​, que luego llamamos `​@reviews.each haz |review| ; review.moviegoers.first` ​que debemos hacer?
+3. Modifica la lista de películas de la siguiente manera. Cada modificación va a necesitar que realices un cambio en una capa de abstracción diferente:
+   * Modifica la vista `Index` para incluir el número de fila de cada fila en la tabla de películas. Pista: Busca la documentación de la función `each_with_index` usada en
+   * Modifica la vista `Index` para que cuando se sitúe el ratón sobre una fila de la tabla, dicha fila cambie temporalmente su color de fondo a amarillo. Pista: busca infor-
+    mación sobre la pseudo-clase `hover` que te ofrece CSS.
+   * Modifica la acción `Index` del controlador para que devuelva las películas ordenadas alfabéticamente por título, en vez de por fecha de lanzamiento. Pista: No intentes            ordenar el resultado de la llamada que hace el controlador a la base de datos. Los gestores de bases de datos ofrecen formas para especificar el orden en que se quiere  una       lista de resultados y, gracias al fuerte acoplamiento entre ActiveRecord y el sistema gestor de bases de datos (RDBMS) que hay debajo, los métodos `find` y `all` de la             biblioteca de ActiveRecord en Rails ofrece una manera de pedirle al RDBMS que haga esto.
+   * Simula que no dispones de ese fuerte acoplamiento de ActiveRecord, y que no puedes asumir que el sistema de almacenamiento que hay por debajo pueda devolver la colección           de ítems en un orden determinado. Modifica la acción `Index` del controlador para que devuelva las películas ordenadas alfabéticamente por título. Pista: Utiliza el método         `sort` del módulo `Enumerable` de Ruby.
+5. Supongamos que queremos agregar un modelo `Theaters` a Rotten Potatoes, con la suposición simplificadora de que cada `Theater (cine)` muestra solo una película en un momento dado, pero para una `Movie` determinada podría proyectarse en muchos `Theater`. Además de agregar una tabla `theaters` a la base de datos, ¿qué pasos son necesarios para que `movie.theaters` devuelva una lista de todos los cines en los que se proyecta una película?.
+6. Suponiendo que una película tiene muchas reseñas, una reseña pertenece a una sola película y existe el ID de película 5, ¿qué tablas se actualizarán como resultado del siguiente código?
 
    ```
     m = Movie.find(5)
