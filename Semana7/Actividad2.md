@@ -42,3 +42,58 @@ Nota que a través de la convención sobre configuración, el comodín `:id` en 
 y Rails elige el nombre del recurso “externo” para hacer que `:movie_id` capture la ID del recurso “poseedor” . Así, los
 valores de los ID estarán disponibles en las acciones del controlador como `params[:id]` (la crítica) y `params[:movie_id]` (la película con la que se asociará la crítica).
 
+**Ejercicio:** El código  muestra un pequeño ejemplo de estas rutas anidadas para la creación de vistas y acciones asociadas a una nueva crítica. Explica su funcionamiento.
+
+```
+class ReviewsController < ApplicationController
+    before_filter :has_moviegoer_and_movie , :only => [:new, :create]
+    protected
+    def has_moviegoer_and_movie
+        unless @current_user
+            flash[:warning] = 'You must be logged in to create a review.'
+            redirect_to login_path
+        end
+        unless (@movie = Movie.where(:id => params[:movie_id]))
+            flash[:warning] = 'Review must be for an existing movie.'
+            redirect_to movies_path
+        end
+    end
+
+    public
+    def new
+        @review = @movie.reviews.build
+    end
+
+    def create
+    # since moviegoer_id is a protected attribute that won't get
+    # assigned by the mass-assignment from params[:review], we set it
+    # by using the << method on the association. We could also
+    # set it manually with review.moviegoer = @current_user.
+    @current_user.reviews << @movie.reviews.build(params[:review])
+    redirect_to movie_path(@movie)
+    end
+end
+```
+
+```
+<h1> New Review for <%= @movie.title %> </h1>
+
+<%= form_tag movie_reviews_path(@movie), class: 'form' do %>
+    <label class="col-form-label"> How many potatoes:</label>
+    <%= select_tag 'review[potatoes]', options_for_select(1..5), class: 'form-control' %>
+    <%= submit_tag 'Create Review', :class => 'btn btn-success' %>
+<% end 
+```
+
+o
+
+```
+%h1 New Review for #{@movie.title}
+
+= form_tag movie_reviews_path(@movie) do
+  %label How many potatoes:
+  = select_tag 'review[potatoes]', options_for_select(1..5)
+  = submit_tag 'Create Review'
+```
+
+**Pregunta:** ¿Por qué tenemos que dar valores a los campos `movie_id` y `movie-goer_id` de una crítica en las acciones `new` y `create` de `ReviewsController`, pero no en las acciones `edit` o `update`?. 
