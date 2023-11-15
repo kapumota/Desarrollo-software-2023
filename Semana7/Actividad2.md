@@ -97,3 +97,15 @@ o
 ```
 
 **Pregunta:** ¿Por qué tenemos que dar valores a los campos `movie_id` y `movie-goer_id` de una crítica en las acciones `new` y `create` de `ReviewsController`, pero no en las acciones `edit` o `update`?. 
+
+#### Repaso
+
+1. Al realizar una consulta de base de datos como `@reviews = Review.where(rating: 5)`​, que luego llamamos `​@reviews.each haz |review| ; review.moviegoers.first` ​que debemos hacer?
+2. Supongamos que queremos agregar un modelo `Theaters` a Rotten Potatoes, con la suposición simplificadora de que cada `Theater (cine)` muestra solo una película en un momento dado, pero para una `Movie` determinada podría proyectarse en muchos `Theater`. Además de agregar una tabla `theaters` a la base de datos, ¿qué pasos son necesarios para que `movie.theaters` devuelva una lista de todos los cines en los que se proyecta una película?.
+3. Suponiendo que una película tiene muchas reseñas, una reseña pertenece a una sola película y existe el ID de película 5, ¿qué tablas se actualizarán como resultado del siguiente código?
+
+   ```
+    m = Movie.find(5)
+    m.reviews.build(:potatoes => 5)
+    m.save!
+   ```
