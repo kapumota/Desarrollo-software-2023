@@ -63,20 +63,25 @@ bar(11);
 ```
 #### Algoritmos
 
-La siguiente función encuentra el mayor número dentro de un array, pero tiene una eficiencia de `O(N2)`. Reescribe la función para que se convierta en una `O(N)``más rápida:
+La siguiente función encuentra el mayor número dentro de un array, pero tiene una eficiencia de `O(N2)`. Reescribe la función para que se convierta en una `O(N)` más rápida:
 
 ```
-def greatestNumber(array):
-   for i in array:
-     isIValTheGreatest = True
-     for j in array:
-      if j > i:
-         isIValTheGreatest = False
-    if isIValTheGreatest:
-      return i
+function greatestNumber(array) {
+  for (let i of array) {
+    let isIValTheGreatest = true;
+    for (let j of array) {
+      if (j > i) {
+        isIValTheGreatest = false;
+      }
+    }
+    if (isIValTheGreatest) {
+      return i;
+    }
+  }
+}
 ```
 
-La siguiente función devuelve si hay o no una “X” mayúscula dentro de una cadena.
+La siguiente función devuelve si hay o no una `X` mayúscula dentro de una cadena.
 
 ```
 function containsX(string) {
@@ -92,7 +97,7 @@ function containsX(string) {
 
 ¿Cuál es la complejidad temporal de esta función en términos de notación O grande? Luego, modifica el código para mejorar la eficiencia del algoritmo en los mejores y promedios escenarios.
 
-Escribe una función que devuelva el primer carácter no duplicado de una cadena. Por ejemplo, la cadena "mínimum" tiene dos caracteres que solo existen una vez: la "n" y la "u", por lo que su función debería devolver la "n", ya que aparece primero. La función debe tener una eficiencia de `O(N)`.
+Escribe una función que devuelva el primer carácter no duplicado de una cadena. Por ejemplo, la cadena "mínimum" tiene dos caracteres que solo existen una vez: la `n` y la `u`, por lo que su función debería devolver la `n`, ya que aparece primero. La función debe tener una eficiencia de `O(N)`.
 
 #### Clases
 
@@ -103,12 +108,12 @@ Clase Pokémon:
 - El constructor toma 3 parámetros (HP, ataque, defensa)
 - El constructor debe crear 6 campos (HP, ataque, defensa, movimiento, nivel, tipo). Los valores de (mover, nivelar,
 tipo) debe inicializarse en ("", 1, "").
-– Implementa un método `flight` que arroje un error que indique que no se especifica ningún movimiento.
-– Implementa un método `canFly` que verifica si se especifica un tipo. Si no, arroja un error. Si es así, verifica si el tipo incluye "volar". En caso afirmativo, devuelve verdadero; si no, devuelve falso.
+- Implementa un método `flight` que arroje un error que indique que no se especifica ningún movimiento.
+- Implementa un método `canFly` que verifica si se especifica un tipo. Si no, arroja un error. Si es así, verifica si el tipo incluye "volar". En caso afirmativo, devuelve verdadero; si no, devuelve falso.
 
 Clase Charizard:
 
-– El constructor toma 4 parámetros (HP, ataque, defensa, movimiento)
-– El constructor configura el movimiento y el tipo (para "disparar/volar") además de establecer HP, ataque y defensa como el
+- El constructor toma 4 parámetros (HP, ataque, defensa, movimiento)
+- El constructor configura el movimiento y el tipo (para "disparar/volar") además de establecer HP, ataque y defensa como el
 constructor de superclase.
-– Sobreescribe el método `fight`. Si se especifica un movimiento, imprime una declaración que indique que se está utilizando el movimiento y devuelve el campo de ataque. Si no, arroja un error.
+- Sobreescribe el método `fight`. Si se especifica un movimiento, imprime una declaración que indique que se está utilizando el movimiento y devuelve el campo de ataque. Si no, arroja un error.
