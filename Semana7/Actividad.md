@@ -2,7 +2,7 @@
 
 Realizar depuración en una aplicación de votación. 
 
-Revisa el repositorio : https://github.com/kapumota/Desarrollo-software-2023/tree/main/Semana7/Logging-debugging.
+Revisa el repositorio :https://github.com/kapumota/Desarrollo-software-2023/tree/main/Semana6/Logging-debugging.
 
 En esta actividad, refactorizaremos una aplicación de máquina de votación para generar un logging que podamos usar con fines de depuración. 
 
