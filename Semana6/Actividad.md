@@ -1,5 +1,7 @@
 ### Depuración SaaS que usan Rails
 
+Responde las preguntas en un repositorio llamado `Depuración-Rails` como parte de tus carpetas de trabajo.
+
 En las aplicaciones SaaS que usan Rails, esta confusión se puede agravar si la operación que falló ocurre en una acción del controlador, pero el objeto inválido se pasó como una
 variable de instancia y luego fue dereferenciada en la vista, como se muestra en los siguientes extractos de un controlador y una vista:
 
