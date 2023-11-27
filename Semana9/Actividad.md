@@ -1,6 +1,6 @@
 ## Testing Java Script y Ajax
 
-Presenta esta actividad en un repositorio llamado `Prueba-JS-Ajax`. La actividad es individual.
+Presenta esta actividad en un repositorio llamado `Pruebas-JS-Ajax`. La actividad es individual.
 
 Para empezar a utilizar [Jasmine](https://jasmine.github.io/), añada `gem jasmine` a tu Gemfile y ejecute bundle como siempre; después, ejecuta los comandos siguientes desde el directorio raíz de su aplicación.
 
