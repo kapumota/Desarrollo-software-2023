@@ -106,3 +106,21 @@ var MoviePopup = {
 $(MoviePopup.setup);
 
 ```
+
+**Pregunta:** Indica cuales son  los stubs y fixtures disponibles en Jasmine y Jasmine-jQuery. 
+
+**Pregunta:** Como en RSpec, Jasmine permite ejecutar código de inicialización y desmantelamiento de pruebas utilizando `beforeEach` y `afterEach`.  El código de inicialización carga el fixture HTML mostrado en el código siguiente, para imitar el entorno que el manejador `getMovieInfo` vería si fuera llamado después de mostrar la lista de películas. 
+
+```
+<div id="movies">
+  <div class="row">
+    <div class="col-8"><a href="/movies/1">Casablanca</a></div>
+    <div class="col-2">PG</div>
+    <div class="col-2">1943-01-23</div>
+  </div>
+</div>
+```
+La funcionalidad de fixtures la proporciona Jasmine-jQuery, cada fixture se carga dentro de `div#jasmine-fixtures`, que está dentro de `div#jasmine_content` en la página principal de Jasmine, y todos los fixtures se eliminan después de cada especificación (spec) para preservar la independencia de las pruebas. 
+
+
+
