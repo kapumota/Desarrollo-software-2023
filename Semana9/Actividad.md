@@ -1,16 +1,16 @@
 ## Testing Java Script y Ajax
 
-Presenta esta actividad en un repositorio llamado `Pruebas-JS-Ajax`. La actividad es individual.
+Presenta esta actividad en un repositorio llamado `Pruebas-JS-Ajax`. La actividad es individual y se utiliza el repositorio anterior de actividades de ajax.
 
-Para empezar a utilizar [Jasmine](https://jasmine.github.io/), añada `gem jasmine` a tu Gemfile y ejecute bundle como siempre; después, ejecuta los comandos siguientes desde el directorio raíz de su aplicación.
+Para empezar a utilizar [Jasmine](https://jasmine.github.io/), añada `gem jasmine` a tu Gemfile y ejecute bundle como siempre; después, ejecuta los comandos siguientes desde el directorio raíz de tu aplicación.
 
 ```
 rails generate jasmine_rails:install 
 mkdir spec/javascripts/fixtures 
-curl https://raw.githubusercontent.com/velesin/jasmine-jquery/master/lib/jasmine-jquery.js
-    > spec/javascripts/helpers/jasmine-jquery.js 
-git add spec/javascripts 
+git add spec/javascripts
 ```
+
+Puedes también revisar y utilizar https://jasmine.github.io/setup/ruby.html 
 
 No podemos ejecutar un conjunto de pruebas Jasmine completamente vacío, así que crea el fichero `spec/javascripts/basic_check_spec.js` con el siguiente código: 
 
