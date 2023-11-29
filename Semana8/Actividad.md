@@ -101,7 +101,7 @@ Escribe una función que devuelva el primer carácter no duplicado de una cadena
 
 #### Clases
 
-Practiquemos la herencia y la programación orientada a objetos en Javascript. Diseñe 2 clases, una llamada "Pokemon" y otra llamada "Charizard". Las clases deben hacer lo siguiente:
+Practiquemos la herencia y la programación orientada a objetos en Javascript. Diseña 2 clases, una llamada "Pokemon" y otra llamada "Charizard". Las clases deben hacer lo siguiente:
 
 Clase Pokémon:
 
