@@ -97,7 +97,7 @@ function containsX(string) {
 
 ¿Cuál es la complejidad temporal de esta función en términos de notación O grande? Luego, modifica el código para mejorar la eficiencia del algoritmo en los mejores y promedios escenarios.
 
-Escribe una función que devuelva el primer carácter no duplicado de una cadena. Por ejemplo, la cadena "mínimum" tiene dos caracteres que solo existen una vez: la `n` y la `u`, por lo que su función debería devolver la `n`, ya que aparece primero. La función debe tener una eficiencia de `O(N)`.
+Escribe una función que devuelva el primer carácter no duplicado de una cadena. Por ejemplo, la cadena "mínimum" tiene dos caracteres que solo existen una vez: la `n` y la `u`, por lo que tu función debería devolver la `n`, ya que aparece primero. La función debe tener una eficiencia de `O(N)`.
 
 #### Clases
 
