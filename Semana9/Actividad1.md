@@ -25,8 +25,20 @@ Presenta tus respuestas en un repositorio llamado `BDD`. La actividad es individ
 6. Nombra tres ventajas de utilizar mockups Lo-Fi.
 7. Crea un sketch poco detallado (Lo-Fi) mostrando el comportamiento actual de la aplicación RottenPotatoes.
 8. Inventa una funcionalidad que te gustaría añadir a RottenPotatoes y dibuja storyboards que muestren cómo se implementaría y se utilizaría.
+9. Convierte las historias de usuario de RottenPotatoes en un documento de especificación de requisitos software. ¿Encuentra alguna dificultad para expresarlo en un SRS?
 
-### Análisis de escenarios de Cucumber
+### Cucumber
+
+1. Crea definiciones de pasos que te permitan escribir los siguientes pasos en un escenario de RottenPotatoes:
+
+   ```
+    Given the movie "Inception" exists
+   And it has 5 reviews
+   And its average review score is 3.5
+   ```
+2. Escriba una lista de pasos de background que inserten varias películas en RottenPotatoes.
+3. Crea una definición de paso en Cucumber que le permita comprobar la existencia de múltiples apariciones de un string en una página, como por ejemplo Entonces debo ver 'Hurra' 3 veces. Sugerencia: Piensa en lo que ocurre si divides el texto de la página
+en trozos separados por la cadena de caracteres que debe encontrar.
 
 Las siguientes historias de usuario se convirtieron en escenarios de Cucumber. Nombra tres cosas que podrían mejorarse en 
 cada historia de usuario y cómo se relaciona esto con la facilidad de implementación de la prueba de aceptación que 
@@ -45,7 +57,6 @@ Escenario: el mal actor no puede editar las listas de tareas pendientes de otros
   Cuando intento agregar un elemento a la lista de tareas pendientes de otro usuario,
   Entonces debería recibir una severa advertencia.
 ```
-### Historias de usuarios para escenarios Cucumber
 
 Convierte las siguientes historias de usuarios en escenarios de Cucumber:
 
