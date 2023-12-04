@@ -158,4 +158,4 @@ Analiza los pros y los contras del uso de factorias y fixtures en las pruebas.
 ### Otras pruebas
 
 En 1999, la nave de 165 millones de dólares Mars Climate Orbiter se volatilizó al entrar en la atmósfera de Marte porque uno de los equipos que trabajaba en el software
-de los impulsores había utilizado unidades del sistema internacional (SI) mientras que otro equipo, que trabajaba en otra parte distinta de dicho software, había utilizado otras unidades. ¿Qué tipo de pruebas de corrección —unitarias, funcionales o de integración— habrían sido necesarias para detectar este fallo?
+de los impulsores había utilizado unidades del sistema internacional (SI) mientras que otro equipo, que trabajaba en otra parte distinta de dicho software, había utilizado otras unidades. ¿Qué tipo de pruebas de corrección unitarias, funcionales o de integración, habrían sido necesarias para detectar este fallo?.
