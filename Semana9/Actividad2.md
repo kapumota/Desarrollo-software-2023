@@ -2,6 +2,26 @@
 
 Presenta tus respuestas en un repositorio llamado `TDD`. La actividad es individual.
 
+### AAA
+
+El patrón más popular para la anatomía de una prueba unitaria es el método `Arrange`, `Act` y `Assert`. En este ejercicio, implementaremos cada una de estas etapas para una clase `BankAccount`.
+
+Aquí está el código de clase `BankAccount`:
+
+```
+class BankAccount
+  attr_reader :total
+  def initialize(amount)
+    @total = amount
+  end
+  def cash(amount)
+    @total += amount
+  end
+end
+```
+Completa la siguiente prueba unitaria, siguiendo el paradigma Triple A, para probar si el método `cash` funciona. Inicializa la cuenta bancaria con un monto 100. `Cash` un monto de 1. Indica que el total esperado después de `cash` es 101.
+
+
 ### RSpec TDD 
 Ya hemos visto una variante de la anatomía `AAA` en Cucumber, donde las precondiciones generalmente son pasos `Given`, las acciones tomadas generalmente son pasos `When` 
 y las postcondiciones generalmente se expresan en pasos `Then`.
