@@ -22,7 +22,7 @@ end
 En el archivo `HomeControllerSpec.rb`:
 
 ```
-it "should␣render␣special␣template␣on␣Tuesdays" do
+it "should render special template on Tuesdays" do
   get 'index'
   if Time.now.tuesday?
     response.should render_template('special_index')
@@ -133,7 +133,7 @@ end
 describe "sending news" do
   before(:each) do
    @person = Member.first
-   @message = Message.new("Great␣news!")
+   @message = Message.new("Great news!")
   end
   it "sends the news to all my friends" do
     @person.friends.each do |friend|
@@ -151,3 +151,11 @@ describe "sending news" do
   end
 end
 ```
+### Fixtures y Factorías
+
+Analiza los pros y los contras del uso de factorias y fixtures en las pruebas.
+
+### Otras pruebas
+
+En 1999, la nave de 165 millones de dólares Mars Climate Orbiter se volatilizó al entrar en la atmósfera de Marte porque uno de los equipos que trabajaba en el software
+de los impulsores había utilizado unidades del sistema internacional (SI) mientras que otro equipo, que trabajaba en otra parte distinta de dicho software, había utilizado otras unidades. ¿Qué tipo de pruebas de corrección —unitarias, funcionales o de integración— habrían sido necesarias para detectar este fallo?
