@@ -2,6 +2,36 @@
 
 Presenta tus respuestas en un repositorio llamado `TDD`. La actividad es individual.
 
+En clase sobre ciclo de vida ágil, discutimos dos aspectos de la garantía del software: validación  y verificación. BDD nos ayuda a comunicarnos eficazmente con el cliente para realizar la validación. Aquí, nos centraremos en la verificación, específicamente en cómo comprobar si hemos creado el sistema correctamente mediante pruebas de software.
+
+### FIRST
+
+Recuerda, los principios FIRST son un conjunto de pautas para redactar pruebas unitarias precisas y efectivas. FIRST significa rápido, independiente, repetible, autocontrolado y oportuno. Dado el código siguiente, determina qué principio FIRST no se sigue y por qué. Determina cómo podrías editar la prueba para resolver su insuficiencia.
+​
+En el archivo `HomeController.rb`:
+
+```
+def index
+  if Time.now.tuesday?
+    render 'special_index'
+   else
+    render 'index'
+   end
+end
+```
+En el archivo `HomeControllerSpec.rb`:
+
+```
+it "should␣render␣special␣template␣on␣Tuesdays" do
+  get 'index'
+  if Time.now.tuesday?
+    response.should render_template('special_index')
+  else
+    response.should render_template('index')
+   end
+end
+```
+
 ### AAA
 
 El patrón más popular para la anatomía de una prueba unitaria es el método `Arrange`, `Act` y `Assert`. En este ejercicio, implementaremos cada una de estas etapas para una clase `BankAccount`.
@@ -21,6 +51,20 @@ end
 ```
 Completa la siguiente prueba unitaria, siguiendo el paradigma Triple A, para probar si el método `cash` funciona. Inicializa la cuenta bancaria con un monto 100. `Cash` un monto de 1. Indica que el total esperado después de `cash` es 101.
 
+```
+RSpec.describe BankAccount do
+   # Arrange aqui
+    ..........................................
+   describe '#cash' do
+      it 'adds the passed amount to total' do
+        # Act aqui
+        ..........................................
+        # Assert aqui
+        ..........................................
+      end
+    end
+end
+```
 
 ### RSpec TDD 
 Ya hemos visto una variante de la anatomía `AAA` en Cucumber, donde las precondiciones generalmente son pasos `Given`, las acciones tomadas generalmente son pasos `When` 
