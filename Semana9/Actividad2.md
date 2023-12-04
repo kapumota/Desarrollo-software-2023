@@ -105,3 +105,49 @@ Escribe pruebas RSpec para ambos métodos.
  end
 end    
 ```
+
+### Seams
+
+Supongamos que tienes una aplicación de red de mensajería social en la que cada miembro mantiene una lista de amigos (también miembros). Cuando cualquier miembro llama a `tell_my_friends(message)`, la aplicación debe coordinar la entrega de ese mensaje llamando a `hear_news(message)` a cada amigo. El método `hear_news` también propaga el mensaje a sus amigos .
+
+
+```
+class Member
+   def tell_my_friends(message)
+    # notify all my friends of the message
+   end
+   def hear_news(message)
+      # this gets called when one of my friends posts a message
+      # it makes sure the message is also forwarded to their friends
+    end
+   def friends
+     # returns a collection of all my friends, each is a Member
+   end
+end
+```
+
+¿Cómo probarías que este código funciona correctamente? Comentario: tu estrategia debería ser "espiar" el método de `receive_news` para cada amigo para asegurarte de que sea invocado por todos mis amigos. Ten en cuenta que debes configurar un "espía" para ese método utilizando la expectativa de `receive()` antes de llamar al método que podría generar esas llamadas.
+
+
+```
+describe "sending news" do
+  before(:each) do
+   @person = Member.first
+   @message = Message.new("Great␣news!")
+  end
+  it "sends the news to all my friends" do
+    @person.friends.each do |friend|
+    ..............................................
+    end
+    ..............................................
+  end
+  # ensure that all Members who are NOT my friends
+  # do NOT receive the news
+  it "does not send the news to people who are not my friends" do
+    ...............................................
+   @not_my_friends.each do |stranger|
+    ...............................................
+   end
+  end
+end
+```
