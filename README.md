@@ -12,4 +12,5 @@ Lenguajes de programación: Java, JavaScript, Python y Ruby,
 - Mantenimiento de software: mejora del software heredado mediante refactorización y métodos ágiles
 - Equipos ágiles
 - Patrones de diseño para aplicaciones SaaS
+- Microservicios
 - Dev/ops
